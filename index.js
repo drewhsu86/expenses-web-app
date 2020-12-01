@@ -6,7 +6,7 @@ const logger = require("morgan");
 const path = require("path");
 const { createServer } = require("http");
 // 👉 Replace this with express-openid-connect require 👈
-const { auth } = require("express-openid-connect");
+const { auth, requireAuth } = require("express-openid-connect");
 
 const {
   checkUrl,
@@ -44,6 +44,7 @@ app.use(
     secret: SESSION_SECRET,
     auth0Logout: true,
     baseURL: APP_URL,
+    authRequired: false
   })
  );
  
