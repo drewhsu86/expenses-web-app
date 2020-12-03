@@ -7,7 +7,7 @@ const path = require("path");
 const { createServer } = require("http");
 // 👉 Replace this with express-openid-connect require 👈
 const { auth, requiresAuth } = require("express-openid-connect");
-const axios = require("axios").default();
+const axios = require("axios").default;
 
 const {
   checkUrl,
@@ -79,7 +79,7 @@ app.get("/", async (req, res) => {
   } catch (err) {
     next(err);
   }
- });
+});
  
 
 // 👇 add requiresAuth middlware to these private routes  👇
