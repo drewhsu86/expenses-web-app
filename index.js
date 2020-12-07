@@ -6,7 +6,7 @@ const logger = require("morgan");
 const path = require("path");
 const { createServer } = require("http");
 // 👉 Replace this with express-openid-connect require 👈
-const { auth, requiresAuth } = require("express-openid-connect");
+const { auth, requiresAuth} = require("express-openid-connect");
 const axios = require("axios").default;
 
 const {
@@ -47,10 +47,12 @@ app.use(
     auth0Logout: true,
     baseURL: APP_URL,
     authRequired: false,
-    // added for authorizing into protected api, 'expenses-api'
+    // added params for authorizing into protected api, 'expenses-api'
     authorizationParams: {
       response_type: "code id_token",
       audience: "https://expenses-api",
+      // add a param for scope
+      scope: "openid profile email read:reports"
     },
  
   })
@@ -102,7 +104,6 @@ app.get("/user", requiresAuth(), async (req, res) => {
 app.get("/expenses", requiresAuth(), async (req, res, next) => {
   try {
     // 👇 get the token from the request 👇
-    console.log('oidc', req.oidc);
     const { token_type, access_token } = req.oidc.accessToken;
     // 👇 then send it as an authorization header 👇
     const expenses = await axios.get(`${API_URL}/reports`, {
